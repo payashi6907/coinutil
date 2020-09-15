@@ -1,10 +1,9 @@
 import coinapi
+import gasapi
 import time
 import requests
 
 transaction_time = 180
-transaction_fee = 4 #単位は$
-
 n18 = 1000000000000000000
 amount_small = 100
 
@@ -27,12 +26,12 @@ class Arbitrage:
         for cn in coinapi.coin_list:
             if not cn in self.maxhistory:                
                 print(cn)
-                self.maxhistory[cn] = coinapi.best_dex(init_coin, cn, init_amount, dex_valid)["to_amount"] - transaction_fee * n18
+                self.maxhistory[cn] = coinapi.best_dex(init_coin, cn, init_amount, dex_valid)["to_amount"] - gasapi.transaction_fee() * n18
                 self.maxhistory_unit[cn] = self.maxhistory[cn]/n18
                 self.current_rate[cn] = coinapi.best_dex(init_coin, cn, amount_small * n18, dex_valid)["to_amount"] / (amount_small * n18)
 
         
-    def check(self, max_ratio=1.002, max_ratio_sUSD=1.01, dex_valid=["Uniswap V2","Curve","Balancer","Swerve"], realmode=False):
+    def check(self, max_ratio=1.002, max_ratio_high=1.01, dex_valid=["Uniswap V2","Curve","Balancer","Swerve"], realmode=False):
         dex_used = {}
         amount_list = {}
         rate_list={}
@@ -45,17 +44,18 @@ class Arbitrage:
 
         for cn in coinapi.coin_list:
             if cn != self.current_coin:
-                amount_list[cn] = coinapi.best_dex(self.current_coin, cn, self.current_amount,dex_valid)["to_amount"] - transaction_fee * n18
+                amount_list[cn] = coinapi.best_dex(self.current_coin, cn, self.current_amount,dex_valid)["to_amount"] - gasapi.transaction_fee() * n18
                 rate_list[cn] = coinapi.best_dex(self.current_coin, cn, amount_small*n18,dex_valid)["to_amount"]/(amount_small*n18)
                 dex_used[cn]= coinapi.best_dex(self.current_coin, cn, self.current_amount,dex_valid)["dex_used"]
                 compare_list[cn] = self.current_rate[cn] * self.current_amount
             
-            if cn == "sUSD":
-                max_ratio_list[cn] = max_ratio_sUSD
+            if cn == "sUSD" or cn == "DAI":
+                max_ratio_list[cn] = max_ratio_high
             else:
                 max_ratio_list[cn] = max_ratio
                    
         max_cn = ""
+        cheap_cn = ""
 
         for cn in amount_list:
             ratio_list[cn] = amount_list[cn] / compare_list[cn]
@@ -65,16 +65,17 @@ class Arbitrage:
                 max_ratio = ratio_list[cn]
 
             if ratio_list[cn] > 1.001:
+                cheap_cn = cn
                 cheap_coin_num += 1
 
         print("ValueRatio: "+ str(ratio_list))
         
-        if max_cn == "":
-            if cheap_coin_num >= 3:
-                print(self.current_coin+" price incleased")
-            elif cheap_coin_num == 2 or cheap_coin_num == 1 :
-                print(max_cn+" prise decreased")
+        if cheap_coin_num >= 2:
+            print(self.current_coin+" price incleased")
+        elif cheap_coin_num == 1 :
+            print(cheap_cn+" prise decreased")
 
+        if max_cn == "": 
             return {"swap": False, "dex_used": "None"}
 
         else :
