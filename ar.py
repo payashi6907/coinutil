@@ -80,7 +80,6 @@ class Arbitrage:
             return {"swap": False, "dex_used": "None"}
 
         else:
-            previous_amount_unit = self.current_amount/n18
             self.previous_coin = self.current_coin
             self.current_coin = max_cn
             self.current_amount = amount_list[max_cn]
