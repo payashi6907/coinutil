@@ -5,9 +5,8 @@ from binance.client import Client
 
 
 
-API_KEY_binance = "GXfFS5lUcbCKScpKH28T1uIIvUCl2au0kdSdfXhtxlT3lOic4HDCGNbwDpS3uMq7"
-API_SECRET_binance = "UVocNcy51L6G94GPMAUxnDrQTimUcLs5I2LKHP990oWILRbcc2Ow5pGX2nNslV88"
-
+API_KEY_binance = "your_apikey"
+API_SECRET_binance = "your_secretkey"
 client = Client(API_KEY_binance,API_SECRET_binance)
 
 pools = client.get_all_pools()
