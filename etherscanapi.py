@@ -37,7 +37,7 @@ def get_account_balance(coin_name,address=MEW_ADDRESS,api_key=API_KEY):
 
 def get_max_coin():
     max_coin_amount = 0
-    max_coin = ""
+    max_coin = "No stable coin"
     for cn in coinapi.coin_list:
         coin_amount = get_account_balance(cn)
         if coin_amount > max_coin_amount:

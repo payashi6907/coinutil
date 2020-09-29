@@ -14,22 +14,22 @@ def line_notify(notification_message): # LINEに通知
 
 parser = argparse.ArgumentParser(description='Performing arbitrage trade of stable coin.') 
 parser.add_argument('--realmode', action='store_true')
-parser.add_argument('--ratio', type=float, default=1.003)
-parser.add_argument('--ratio_high', type=float, default=1.01)
+parser.add_argument('--ratio', type=float, default=1.001)
+parser.add_argument('--ratio_high', type=float, default=1.001)
 args = parser.parse_args()
 
 
-initial_asset = etherscanapi.get_max_coin()#僕のwalletで一番多いstable coinです
+# initial_asset = etherscanapi.get_max_coin()#僕のwalletで一番多いstable coinです
 # initial_amount = initial_asset["coin_amount"]
 # initial_coin = initial_asset["coin_name"]
 
 initial_amount = 10000
-initial_coin = "USDT"
+initial_coin = "DAI"
 
 
 
-dex=["Uniswap V2","Curve","Balancer","Swerve","Sushi Swap"]
-#choose from ["Uniswap V2","Curve","Balancer","Swerve","Mooniswap","Sushi Swap","Pathfinder","Oasis","Uniswap","Kyber","Bancor","PMM2","0x Relays","PMM","AirSwap","DODO","dForce Swap","mStable"]
+dex=["Uniswap V2","Curve pool","Swerve"]
+#choose from ["Uniswap V2","Curve pool","Curve yearn","Balancer","Swerve","Black Hole Swap","Mooniswap","Sushi Swap","Pathfinder","Oasis","Uniswap","Kyber","Bancor","PMM2","0x Relays","PMM","AirSwap","DODO","dForce Swap","mStable"]
 
 print("initial asset ... "+initial_coin+ " : " + str(initial_amount))
 line_notify("initial asset ... "+initial_coin+ " : " + str(initial_amount))

@@ -32,7 +32,7 @@ class Arbitrage:
                 self.current_rate[cn] = coinapi.best_dex(init_coin, cn, amount_small * n18, dex_valid)["to_amount"] / (amount_small * n18)
 
         
-    def check(self, max_ratio=1.002, max_ratio_high=1.01, dex_valid=["Uniswap V2","Curve","Balancer","Swerve"], realmode=False):
+    def check(self, max_ratio, max_ratio_high, dex_valid, realmode=False):
         dex_used = {}
         amount_list = {}
         rate_list={}
