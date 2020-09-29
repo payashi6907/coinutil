@@ -47,4 +47,3 @@ while True:
 
     arb.print()
     itr = itr + 1
-
