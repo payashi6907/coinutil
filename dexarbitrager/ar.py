@@ -4,10 +4,6 @@ import time
 import requests
 
 transaction_time = 180
-<<<<<<< HEAD:ar.py
-=======
-transaction_fee = 4 #単位は$
->>>>>>> b43d4bbab7c21f5e103fcb02ff404f61bc582173:dexarbitrager/ar.py
 n18 = 1000000000000000000
 amount_small = 100
 
@@ -36,11 +32,7 @@ class Arbitrage:
                 self.current_rate[cn] = coinapi.best_dex(init_coin, cn, amount_small * n18, dex_valid)["to_amount"] / (amount_small * n18)
 
         
-<<<<<<< HEAD:ar.py
     def check(self, max_ratio, max_ratio_high, dex_valid, realmode=False):
-=======
-    def check(self, max_ratio=1.002, max_ratio_high=1.01, dex_valid=["Uniswap V2","Curve","Balancer","Swerve"], realmode=False):
->>>>>>> b43d4bbab7c21f5e103fcb02ff404f61bc582173:dexarbitrager/ar.py
         dex_used = {}
         amount_list = {}
         rate_list={}
@@ -86,15 +78,8 @@ class Arbitrage:
 
         if max_cn == "": 
             return {"swap": False, "dex_used": "None"}
-<<<<<<< HEAD:ar.py
 
         else:
-=======
-          
-        else :
-            previous_amount_unit = self.current_amount/n18
-
->>>>>>> b43d4bbab7c21f5e103fcb02ff404f61bc582173:dexarbitrager/ar.py
             self.previous_coin = self.current_coin
             self.current_coin = max_cn
             self.current_amount = amount_list[max_cn]
